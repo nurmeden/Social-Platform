@@ -2,7 +2,7 @@ package routes
 
 import (
 	"net/http"
-	"social-forum/controllers"
+	"social-forum/api/controllers"
 )
 
 func InitRoutes() http.Handler {
@@ -18,7 +18,9 @@ func InitRoutes() http.Handler {
 	// mux.HandleFunc("/Addpost", AddPost)
 	// mux.HandleFunc("/posts", Posts)
 	// mux.HandleFunc("/like", Like)
+
 	fileServer := http.FileServer(http.Dir("./utils/"))
+
 	mux.Handle("/utils/", http.StripPrefix("/utils/", fileServer))
 	return mux
 }

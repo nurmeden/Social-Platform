@@ -1,0 +1,53 @@
+package repository
+
+const (
+	users = `CREATE TABLE IF NOT EXISTS Users (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				username TEXT NOT NULL,
+				email TEXT NOT NULL UNIQUE,
+				password TEXT NOT NULL,
+				created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+			);`
+	posts = `CREATE TABLE IF NOT EXISTS Posts (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				title TEXT NOT NULL,
+				content TEXT NOT NULL,
+				user_id INTEGER NOT NULL,
+				created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+				FOREIGN KEY (user_id) REFERENCES Users(id)
+			);`
+	comments = `CREATE TABLE IF NOT EXISTS Comments (
+					id INTEGER PRIMARY KEY AUTOINCREMENT,
+					content TEXT NOT NULL,
+					user_id INTEGER NOT NULL,
+					post_id INTEGER NOT NULL,
+					created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+					FOREIGN KEY (user_id) REFERENCES Users(id),
+					FOREIGN KEY (post_id) REFERENCES Posts(id)
+			);`
+	likes = `CREATE TABLE IF NOT EXISTS Likes (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		user_id INTEGER NOT NULL,
+		post_id INTEGER NOT NULL,
+		created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (user_id) REFERENCES Users(id),
+		FOREIGN KEY (post_id) REFERENCES Posts(id)
+	);`
+	likesforcomment = `CREATE TABLE IF NOT EXISTS LikesComment (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		user_id INTEGER NOT NULL,
+		comment_id INTEGER NOT NULL,
+		created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (user_id) REFERENCES Users(id),
+		FOREIGN KEY (comment_id) REFERENCES Comments(id)
+	);
+	`
+	session = `CREATE TABLE IF NOT EXISTS Session (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		uuid TEXT NOT NULL,
+		user_id INTEGER NOT NULL,
+		created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (user_id) REFERENCES Users(id)
+	);
+	`
+)
