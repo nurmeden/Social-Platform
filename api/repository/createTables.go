@@ -4,15 +4,7 @@ import (
 	"fmt"
 )
 
-// type database struct {
-// 	db *sql.DB
-// }
-
 var tables = []string{users, posts, comments, likes, likesforcomment, session}
-
-// func New(db *sql.DB) *Config {
-// 	return &Config{db}
-// }
 
 func NewCreateTables(dbPointer *Config) *Config {
 	for _, table := range tables {

@@ -1,20 +1,28 @@
-package routes
+package controllers
 
 import (
 	"net/http"
-	"social-forum/api/controllers"
+	"social-forum/api/services"
 )
 
-func InitRoutes() http.Handler {
+type Handler struct {
+	services *services.Service
+}
+
+func NewHandler(services *services.Service) *Handler { // конструктор
+	return &Handler{services: services}
+}
+
+func (h *Handler) InitRoutes() http.Handler {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", controllers.Home)
+	mux.HandleFunc("/", h.Home)
 	mux.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
 	})
+	mux.HandleFunc("/sign-up", h.SignUp)
 	// mux.HandleFunc("/refresh", Refresh)
 	// mux.HandleFunc("/logout", Logout)
 	// mux.HandleFunc("/login", Login)
-	// mux.HandleFunc("/signUp", SignUp)
 	// mux.HandleFunc("/Addpost", AddPost)
 	// mux.HandleFunc("/posts", Posts)
 	// mux.HandleFunc("/like", Like)

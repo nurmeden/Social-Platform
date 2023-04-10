@@ -6,7 +6,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user models.User)
-	GetUser(username, password string) (models.User, error)
+	// GetUser(username, password string) (models.User, error)
 }
 
 type Repository struct {
@@ -15,7 +15,7 @@ type Repository struct {
 
 func NewRepository(database Config) *Repository {
 	return &Repository{
-		Authorization: NewAuthDB(database),
+		Authorization: NewAuthDB(database.db),
 	}
 }
 

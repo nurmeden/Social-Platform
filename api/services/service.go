@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
 	"social-forum/api/repository"
@@ -11,7 +11,7 @@ import (
 // )
 
 type Authorization interface {
-	CreateUser(user models.User) (int, error)
+	CreateUser(user models.User) error
 }
 type Service struct {
 	Authorization
