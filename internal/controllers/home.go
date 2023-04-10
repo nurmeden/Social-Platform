@@ -3,14 +3,13 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	"social-forum/models"
+	"social-forum/internal/entity"
 	"text/template"
 )
 
-var users models.User
+var users entity.User
 
 func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
-
 	switch r.Method {
 	case http.MethodGet:
 		fmt.Println(r.URL.Path)
@@ -19,7 +18,6 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-
 	tmpl, err := template.ParseFiles("./templates/home.html")
 	if err != nil {
 		fmt.Println("error parsing file ", http.StatusInternalServerError)
@@ -30,4 +28,5 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("error from executing: ", http.StatusInternalServerError)
 		return
 	}
+	fmt.Println(r.Form)
 }

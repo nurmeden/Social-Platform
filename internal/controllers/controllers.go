@@ -2,14 +2,14 @@ package controllers
 
 import (
 	"net/http"
-	"social-forum/api/services"
+	"social-forum/internal/usecase"
 )
 
 type Handler struct {
-	services *services.Service
+	services *usecase.Usecase
 }
 
-func NewHandler(services *services.Service) *Handler { // конструктор
+func NewHandler(services *usecase.Usecase) *Handler { // конструктор
 	return &Handler{services: services}
 }
 
@@ -20,6 +20,7 @@ func (h *Handler) InitRoutes() http.Handler {
 		w.WriteHeader(http.StatusNoContent)
 	})
 	mux.HandleFunc("/sign-up", h.SignUp)
+	mux.HandleFunc("/userbyemail", h.UserByEmail)
 	// mux.HandleFunc("/refresh", Refresh)
 	// mux.HandleFunc("/logout", Logout)
 	// mux.HandleFunc("/login", Login)

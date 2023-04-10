@@ -1,21 +1,22 @@
 package repository
 
 import (
-	"social-forum/models"
+	"social-forum/internal/entity"
 )
 
-type Authorization interface {
-	CreateUser(user models.User)
+type User interface {
+	CreateUser(user entity.User) error
+	FindUserByEmail(email string) (*entity.User, error)
 	// GetUser(username, password string) (models.User, error)
 }
 
 type Repository struct {
-	Authorization
+	User
 }
 
 func NewRepository(database Config) *Repository {
 	return &Repository{
-		Authorization: NewAuthDB(database.db),
+		User: NewUserRepository(database.db),
 	}
 }
 

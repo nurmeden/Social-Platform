@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"social-forum/api/controllers"
-	"social-forum/api/repository"
-	"social-forum/api/services"
+	"social-forum/internal/controllers"
+	"social-forum/internal/repository"
+	"social-forum/internal/usecase"
 )
 
 func main() {
@@ -14,7 +14,8 @@ func main() {
 	db = repository.NewCreateTables(db)
 
 	repos := repository.NewRepository(*db)
-	services := services.NewService(repos)
+	services := usecase.NewUseCase(repos)
+	fmt.Println("ok")
 	handlers := controllers.NewHandler(services)
 
 	fmt.Println(services)
