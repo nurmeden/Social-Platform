@@ -29,15 +29,13 @@ func (h *Handler) SignUp(w http.ResponseWriter, r *http.Request) {
 	username := r.FormValue("username")
 	password := r.FormValue("psw")
 	Repeat_password := r.FormValue("psw-repeat")
-	fmt.Printf("username: %v\n", username)
-	fmt.Printf("email: %v\n", email)
+
 	if password == Repeat_password {
 		user := entity.User{
 			Username:     username,
 			Email:        email,
 			PasswordHash: password,
 		}
-		fmt.Printf("user: %v\n", user)
 		err := h.services.User.CreateUser(user)
 		if err != nil {
 			fmt.Println(err)
@@ -48,15 +46,15 @@ func (h *Handler) SignUp(w http.ResponseWriter, r *http.Request) {
 	// }
 }
 
-func (h *Handler) UserByEmail(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/userbyemail" {
-		fmt.Println("error from url", http.StatusNotFound)
-		return
-	}
-	user, err := h.services.User.FindUserByEmail("nurmeden.02@gmail.com")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(user)
-}
+// func (h *Handler) UserByEmail(w http.ResponseWriter, r *http.Request) {
+// 	if r.URL.Path != "/userbyemail" {
+// 		fmt.Println("error from url", http.StatusNotFound)
+// 		return
+// 	}
+// 	user, err := h.services.User.FindUserByEmail("nurmeden.02@gmail.com")
+// 	if err != nil {
+// 		fmt.Println("err in UserByEmail:", err)
+// 		return
+// 	}
+// 	fmt.Println(user)
+// }

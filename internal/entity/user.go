@@ -13,19 +13,8 @@ type User struct {
 
 // UserRepository defines the methods that a user repository must implement.
 type UserRepository interface {
-	// GetByID returns the user with the given ID.
-	// Returns ErrUserNotFound if no user with that ID exists.
 	GetByID(id int64) (*User, error)
-
-	// GetByEmail returns the user with the given email address.
-	// Returns ErrUserNotFound if no user with that email address exists.
 	GetByEmail(email string) (*User, error)
-
-	// GetByUsername returns the user with the given username.
-	// Returns ErrUserNotFound if no user with that username exists.
 	GetByUsername(username string) (*User, error)
-
-	// Insert inserts a new user into the repository.
-	// Returns ErrDuplicateEmail if another user with the same email already exists.
 	Insert(user *User) error
 }

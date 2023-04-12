@@ -6,8 +6,9 @@ import (
 )
 
 type User interface {
-	Create(entity.User) error
-	FindUserByEmail(email string) (*entity.User, error)
+	CreateUser(entity.User) error
+	FindUserByUsername(username, password string) (*entity.User, error)
+	// GetUser(username, password string) (entity.User, error)
 }
 
 type Usecase struct {

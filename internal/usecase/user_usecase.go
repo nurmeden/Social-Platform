@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"errors"
+	"fmt"
 	"social-forum/internal/entity"
 	"social-forum/internal/repository"
 	"time"
@@ -27,42 +29,28 @@ func (u *UserUseCase) CreateUser(user entity.User) error {
 	if err != nil {
 		return err
 	}
-	user = entity.User{
-		PasswordHash: string(hashedPassword),
-		CreatedAt:    time.Now(),
-	}
+	user.PasswordHash = string(hashedPassword)
+	user.CreatedAt = time.Now()
 
 	// Сохраняем пользователя в репозитории
+	fmt.Printf("user: %v\n", user)
 	u.userRepo.CreateUser(user)
 
 	return nil
 }
 
-// func (u *UserUseCase) AuthenticateUser(email, password string) (*entity.User, error) {
-// 	// Получаем пользователя по email
-// 	// user, err := u.userRepo.GetUserByEmail(ctx, email)
-// 	// if err != nil {
-// 	// 	return nil, err
-// 	// }
-
-// 	// // Проверяем, что пароль пользователя совпадает с введенным паролем
-// 	if err := CheckPasswordHash(password, entity.User.PasswordHash); err != nil {
-// 		return nil, errors.New("incorrect password")
-// 	}
-
-// 	return user, nil
-// }
-
-//	func (u *UserUseCase) GetUserByID(ctx context.Context, userID int64) (*entity.User, error) {
-//		return u.userRepo.GetUserByID(ctx, userID)
-//	}
-func (u *UserUseCase) FindUserByEmail(email string) (*entity.User, error) {
-	user, err := u.userRepo.FindUserByEmail(email)
+func (u *UserUseCase) FindUserByUsername(username, password string) (*entity.User, error) {
+	user, err := u.userRepo.FindUserByUsername(username, password)
 	if user != nil {
 		return nil, err
 	}
-	return &entity.User{}, nil
+	flag := CheckPasswordHash(password, user.PasswordHash)
+	if !flag {
+		return nil, errors.New("incorrect password")
+	}
+	return user, nil
 }
+
 func HashPassword(password string) ([]byte, error) {
 	return bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 }

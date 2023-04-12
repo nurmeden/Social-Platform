@@ -17,6 +17,15 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("error from url", http.StatusNotFound)
 			return
 		}
+		username, err := r.Cookie("sessions")
+		if err != nil {
+			// Если cookies не установлен, перенаправляем пользователя на страницу входа
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			return
+		}
+
+		// Иначе выводим на страницу имя пользователя из cookies
+		fmt.Println("username: ", username)
 	}
 	tmpl, err := template.ParseFiles("./templates/home.html")
 	if err != nil {
@@ -28,5 +37,4 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("error from executing: ", http.StatusInternalServerError)
 		return
 	}
-	fmt.Println(r.Form)
 }
